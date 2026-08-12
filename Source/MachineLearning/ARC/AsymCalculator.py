@@ -1,7 +1,7 @@
 import os
 import string
+import math
 from numpy import void
-from numpy.lib import math
 from Source.MachineLearning.ARC.AsymDataHelper import AsymDataHelper, Values_Map
 from Source.Base.BaseDataHelper import BaseDataHelper
 from Source.Base.BasePlotter import BasePlotter
@@ -28,10 +28,11 @@ class AsymCalculator(object):
         filePaths = self.getFilePaths()
         for filepath in filePaths:
             print(" processing file " + filepath.filename)
-            contourHelper = ContourDataHelper(filepath.path, filepath.filename, self.xRange, self.yRange,\
-                                              self.min, self.max)
-            contourHelper.LoadToArray()
-            contourHelper.CreateArray(7)
+            contourHelper = ContourDataHelper(path=filepath.path, filename=filepath.filename,\
+                                              x_range=self.xRange, y_range=self.yRange,\
+                                              min=self.min, max=self.max)
+            contourHelper.load_to_array()
+            contourHelper.create_array(7)
             # contourHelper.Normalise() leads to 0s due to erroneaous very large numbers
             self.helpers.append(contourHelper)
 
@@ -40,7 +41,7 @@ class AsymCalculator(object):
             print("Contour Helpers not populated!!")
             return
         for contourHelper in self.helpers:
-            thisasym = self.CalcualteAsymmetry(contourHelper.ZRESI)
+            thisasym = self.CalcualteAsymmetry(contourHelper.z_resi)
             helper = AsymDataHelper(contourHelper.path, contourHelper.filename)
             imageValues = helper.GetValuesFromFilename()
             imageValues.asym = thisasym
@@ -66,7 +67,7 @@ class AsymCalculator(object):
                     helper = AsymDataHelper("", fileName)
                     if helper.IsAmpGrid() is False:
                         continue
-                    baseData = BaseDataHelper(path, fileName)
+                    baseData = BaseDataHelper(path=path, filename=fileName)
                     filePaths.append(baseData)
         return filePaths
 

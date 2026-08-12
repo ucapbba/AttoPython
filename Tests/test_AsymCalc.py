@@ -44,7 +44,7 @@ def test_GeARCDATAFilePath():
     helper = AsymCalculator(path, jobNum, minTask, maxTask, xRange, yRange, _min, _max)
     filePaths = helper.getFilePaths()
     assert len(filePaths) == 1
-    filePath = filePaths[0].GetFilePath()
+    filePath = filePaths[0].get_file_path()
     thePath = '/Data/140603.10/Data/Amplitude_Grid_w2_1_1000_phi_0.025_750X750.dat'
     assert filePath == thePath
 
@@ -56,8 +56,8 @@ def test_AsymmCalc():
     helper = AsymCalculator(path, jobNum, minTask, maxTask, xRange, yRange, _min, _max)
     filePaths = helper.getFilePaths()
     filePath = filePaths[0]
-    contourHelper = ContourDataHelper(filePath.path, filePath.filename, xRange, yRange, 0, 0)
-    contourHelper.LoadToArray()
-    contourHelper.CreateArray(7)
-    asym = helper.CalcualteAsymmetry(contourHelper.ZRESI)
+    contourHelper = ContourDataHelper(path=filePath.path, filename=filePath.filename, x_range=xRange, y_range=yRange, min=0, max=0)
+    contourHelper.load_to_array()
+    contourHelper.create_array(7)
+    asym = helper.CalcualteAsymmetry(contourHelper.z_resi)
     assert math.isclose(asym, 1.0006104342748006)

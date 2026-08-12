@@ -12,14 +12,8 @@ jobs:
       
     - name : Install Packages 
       run : |
-        pip install pytest pandas numpy seaborn
-        pip install scikit-learn scipy matplotlib
+        pip install -r requirements.txt
       
     - name : Run unit tests 
       run : |
-        pytest Tests/test_TrajData.py
-        pytest Tests/test_Base.py
-        pytest Tests/test_ContourData.py
-        pytest Tests/test_AsymCalc.py
-        pytest Tests/test_Clustering.py
-        pytest MLexamples/Tests/test_Regression.py
+        pytest

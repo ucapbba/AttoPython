@@ -6,14 +6,14 @@ def test_RunClustering():
     path = '/Data/'
     filename = 'Binned_Initial_Condition_Grid_trunc1'
     helper = ClusteringHelper(path, filename)
-    helper.LoadToArray()
-    helper.TruncateArray(10000)
-    helper.CreateDataFrame()
+    helper.load_to_array()
+    helper.truncate_array(10000)
+    helper.create_data_frame()
     helper.AssignColumnNames()
     helper.FilterByOrbit(1)
     helper.DropColumns()
     helper.RunClustering(0.5, 30)
-    df = helper.GetDataFrame()
+    df = helper.get_data_frame()
     orbitColumn = df[helper.orbit]
     assert orbitColumn.iloc[46] == 2
 

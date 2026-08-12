@@ -1,28 +1,27 @@
+from dataclasses import dataclass, field
+from numpy import array, ndarray, amax
 from Source.Base.BaseDataHelper import BaseDataHelper
-from numpy import array, ndarray, void, amax
 
 
+@dataclass(kw_only=True)
 class ContourDataHelper(BaseDataHelper):
-    myArray: ndarray
-    XRESI: ndarray
-    YRESI: ndarray
-    ZRESI: ndarray
     """For importing and manipulating file data in contour plotter"""
-    def __init__(self, _path, _fname, _xRange, _yRange, _min, _max):
-        BaseDataHelper.__init__(self, _path, _fname)
-        self.xRange = _xRange
-        self.yRange = _yRange
-        self.min = _min
-        self.max = _max
+    x_range: int
+    y_range: int
+    min: float
+    max: float
+    x_resi: ndarray = field(init=False, default=None)
+    y_resi: ndarray = field(init=False, default=None)
+    z_resi: ndarray = field(init=False, default=None)
 
-    def CreateArray(self, ampIndex) -> void:
-        data = self.myArray
-        self.XRESI = data[:, 0].reshape(self.xRange, self.yRange)
-        self.YRESI = data[:, 1].reshape(self.xRange, self.yRange)
-        self.ZRESI = (data[:, ampIndex]).reshape(self.xRange, self.yRange)
+    def create_array(self, amp_index) -> None:
+        data = self.my_array
+        self.x_resi = data[:, 0].reshape(self.x_range, self.y_range)
+        self.y_resi = data[:, 1].reshape(self.x_range, self.y_range)
+        self.z_resi = (data[:, amp_index]).reshape(self.x_range, self.y_range)
 
-    def Normalise(self) -> void:
-        maxVal = amax(self.ZRESI)
-        self.ZRESI = [x / maxVal for x in self.ZRESI]
-        self.ZRESI = array(self.ZRESI)  # array creates an ndarray
-        self.ZRESI[self.ZRESI < self.min] = 0
+    def normalise(self) -> None:
+        max_val = amax(self.z_resi)
+        self.z_resi = [x / max_val for x in self.z_resi]
+        self.z_resi = array(self.z_resi)  # array creates an ndarray
+        self.z_resi[self.z_resi < self.min] = 0

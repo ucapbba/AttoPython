@@ -3,7 +3,7 @@ from Source.Base.BaseDataHelper import BaseDataHelper
 
 class Values_Map(BaseDataHelper):
     def __init__(self, _path, _fname, _w2, _Idiff, _phi, _asym):
-        BaseDataHelper.__init__(self, _path, _fname)
+        BaseDataHelper.__init__(self, path=_path, filename=_fname)
         self.w2 = _w2
         self.Idiff = _Idiff
         self.phi = _phi
@@ -12,14 +12,14 @@ class Values_Map(BaseDataHelper):
 
 class AsymDataHelper(BaseDataHelper):
     def __init__(self, _path, _fname):
-        BaseDataHelper.__init__(self, _path, _fname)
+        BaseDataHelper.__init__(self, path=_path, filename=_fname)
         self.w2 = 'w2'
         self.Idiff = 'Idiff'
         self.phi = 'phi'
         self.asym = 'asym'
 
     def AssignColumnNames(self):
-        self.myDataFrame.columns = [self.w2, self.Idiff, self.phi, self.asym]
+        self.my_data_frame.columns = [self.w2, self.Idiff, self.phi, self.asym]
 
     def GetColumnsToDrop(self) -> list:
         columnsToDrop = []

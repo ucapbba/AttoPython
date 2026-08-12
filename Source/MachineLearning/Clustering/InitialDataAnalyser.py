@@ -6,11 +6,11 @@ from Source.MachineLearning.Clustering.ClusteringHelper import ClusteringHelper
 
 def CreatePlotter(helper: ClusteringHelper, points, orbit) -> BasePlotter:
     newhelper = copy.deepcopy(helper)
-    newhelper.TruncateArray(points)
-    newhelper.CreateDataFrame()
+    newhelper.truncate_array(points)
+    newhelper.create_data_frame()
     newhelper.AssignColumnNames()
     newhelper.FilterByOrbit(orbit)
-    newhelper.myDataFrame = newhelper.myDataFrame.drop(['rf', 'rf_perp', 'stability', 'guoy'], axis=1)
+    newhelper.my_data_frame = newhelper.my_data_frame.drop(['rf', 'rf_perp', 'stability', 'guoy'], axis=1)
     plotter = BasePlotter(newhelper)
     return plotter
 

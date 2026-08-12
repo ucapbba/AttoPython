@@ -13,19 +13,19 @@ class ClusteringHelper(TrajDataHelper):
 
     def DropColumns(self) -> void:
         # Here we decide which columns NOT to use
-        self.myDataFrame = self.myDataFrame.drop([self.t0_re, self.t0_im, self.orbit,\
+        self.my_data_frame = self.my_data_frame.drop([self.t0_re, self.t0_im, self.orbit,\
                                                   'rf', 'rf_perp', 'stability', 'guoy'], axis=1)
         # self.myDataFrame = self.myDataFrame.drop([self.orbit,'rf', 'rf_perp', 'stability', 'guoy'], axis=1)
 
     def RunClustering(self, _eps: float, _samples: int) -> int:
         self.eps = _eps
         self.samples = _samples
-        X = self.myDataFrame
+        X = self.my_data_frame
         dbscan = DBSCAN(eps=_eps, min_samples=_samples)  # OPTICS performs well too
         y_pred = dbscan.fit_predict(X)
         X[self.orbit] = y_pred
         uniqueElements = self.uniqueElements(y_pred)
-        self.myDataFrame = X
+        self.my_data_frame = X
         return uniqueElements
 
     def uniqueElements(self, y_pred: ndarray) -> int:

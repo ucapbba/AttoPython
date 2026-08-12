@@ -1,5 +1,5 @@
 import os
-from AsymCalculator import AsymCalculator
+from Source.MachineLearning.ARC.AsymCalculator import AsymCalculator
 
 
 class AsymCalculatorIO(AsymCalculator):
