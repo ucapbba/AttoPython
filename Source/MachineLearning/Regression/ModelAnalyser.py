@@ -24,7 +24,7 @@ class ModelAnalyser(object):
         return statsDict
 
     def CreateTestTrain(self):
-        df = self.helper.GetDataFrame()
+        df = self.helper.get_data_frame()
         y = df[self.helper.GetTargetColumns()]
         X = df.drop(self.helper.GetColumnsToDrop(), axis=1)
         return train_test_split(X, y, test_size=self.testSize, random_state=4)

@@ -14,7 +14,7 @@ class BasePlotter():
         self.helper = _helper
 
     def plotScatter(self, col1: string, col2: string, title="", fontsize=10, pointsize=0.001, save=False):
-        df = self.helper.GetDataFrame()
+        df = self.helper.get_data_frame()
         dfOrbit = df[self.helper.orbit]
         Xarray = np.asarray(df[col1])
         Yarray = np.asarray(df[col2])
@@ -33,7 +33,7 @@ class BasePlotter():
         matplotlib.pyplot.close()
 
     def plot2Scatter(self, col1: string, col2: string, col3: string, col4: string, title="", fontsize=10, pointsize=0.001, save=False):
-        df = self.helper.GetDataFrame()
+        df = self.helper.get_data_frame()
         Xarray = np.asarray(df[col1])
         Yarray = np.asarray(df[col2])
         X2array = np.asarray(df[col3])
@@ -59,9 +59,9 @@ class BasePlotter():
                 'size': 10}
         matplotlib.rc('font', **font)  # increase all font size
         fig, ax = plt.subplots(1, 1, figsize=(14, 8))
-        XRESI = self.helper.XRESI
-        YRESI = self.helper.YRESI
-        ZRESI = self.helper.ZRESI
+        XRESI = self.helper.x_resi
+        YRESI = self.helper.y_resi
+        ZRESI = self.helper.z_resi
         _min = self.helper.min
         _max = self.helper.max
         ax.pcolormesh(XRESI, YRESI, ZRESI, norm=LogNorm(vmin=_min, vmax=_max),\
@@ -71,7 +71,7 @@ class BasePlotter():
         plt.show()
 
     def plotSeaborn(self, title: string = "", save: bool = False) -> np.void:
-        df = self.helper.GetDataFrame()
+        df = self.helper.get_data_frame()
         sns.color_palette("pastel")
         sns.pairplot(df, hue='orbit', kind="reg", plot_kws=dict(scatter_kws=dict(s=0.1)), height=1.5)
         self.SaveOrShow(save, title)
@@ -79,6 +79,7 @@ class BasePlotter():
     def SaveOrShow(self, save: bool, title: string) -> np.void:
         if save is True:
             cwd = os.getcwd()
-            plt.savefig(cwd + self.helper.path + title + ".png")
-        else:
-            plt.show()
+            outputDir = cwd + self.helper.path
+            os.makedirs(outputDir, exist_ok=True)
+            plt.savefig(outputDir + title + ".png")
+        plt.show()

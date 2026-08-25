@@ -7,8 +7,8 @@ path = '/Data/job/'
 jobNum = 41044
 filename = 'varAsymm_' + str(jobNum) + '_.out'
 helper = AsymDataHelper(path, filename)
-helper.LoadToArray()
-helper.CreateDataFrame()
+helper.load_to_array()
+helper.create_data_frame()
 helper.AssignColumnNames()
 
 print("Running Analyser....")

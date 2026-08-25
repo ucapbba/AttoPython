@@ -14,7 +14,7 @@ def CreateHelpersForOrbits(MLhelper: ClusteringHelper):
         MLhelperNew.DropColumns()
         MLhelperNew.path = MLhelperNew.path + str(i) + "/"
         MLHelpers.append(MLhelperNew)
-    MLhelper.Truncate(int(MLhelper.myDataFrame.shape[0] / 4))  # approx 4 times the size of each filtered helper
+    MLhelper.Truncate(int(MLhelper.my_data_frame.shape[0] / 4))  # approx 4 times the size of each filtered helper
     MLhelper.DropColumns()
     MLhelper.path = MLhelper.path + "All/"
     MLHelpers.insert(0, MLhelper)  # all orbits at index 0

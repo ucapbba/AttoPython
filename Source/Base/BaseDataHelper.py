@@ -1,36 +1,36 @@
-import string
-from numpy import ndarray, void, loadtxt
-from pandas import DataFrame
 import os
+from dataclasses import dataclass, field
+from numpy import ndarray, loadtxt
+from pandas import DataFrame
 
 
+@dataclass(kw_only=True)
 class BaseDataHelper:
     """For importing and manipulating file data"""
-    myDataFrame: DataFrame
-    myArray: ndarray
+    path: str
+    filename: str
+    my_data_frame: DataFrame = field(init=False, default=None)
+    my_array: ndarray = field(init=False, default=None)
 
-    def __init__(self, _path: string, _fname: string):
-        self.path = _path
-        self.filename = _fname
+    def create_data_frame(self):
+        if self.my_array is None:
+            raise ValueError("my_array is empty - call load_to_array() first")
+        self.my_data_frame = DataFrame(self.my_array)
 
-    def CreateDataFrame(self):
-        df = DataFrame(self.myArray)
-        self.myDataFrame = df
+    def get_data_frame(self):
+        return self.my_data_frame
 
-    def GetDataFrame(self):
-        return self.myDataFrame
-
-    def GetFilePath(self) -> string:
+    def get_file_path(self) -> str:
         return self.path + self.filename
 
-    def LoadToArray(self) -> void:
-        cwd = os.getcwd()
-        filePath = BaseDataHelper.GetFilePath(self)
-        self.myArray = loadtxt(cwd + filePath)
+    def load_to_array(self) -> None:
+        file_path = os.path.normpath(os.getcwd() + self.get_file_path())
+        if not os.path.isfile(file_path):
+            raise FileNotFoundError(f"data file not found: {file_path}")
+        self.my_array = loadtxt(file_path)
 
-    def TruncateArray(self, size: int) -> void:
-        newArray = self.myArray[:size]
-        self.myArray = newArray
+    def truncate_array(self, size: int) -> None:
+        self.my_array = self.my_array[:size]
 
-    def GetArray(self) -> ndarray:
-        return self.myArray
+    def get_array(self) -> ndarray:
+        return self.my_array

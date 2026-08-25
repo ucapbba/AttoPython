@@ -6,7 +6,7 @@ from Source.Base.BaseDataHelper import BaseDataHelper
 class TrajDataHelper(BaseDataHelper):
     """For importing and manipulating file data in trajectory plotter"""
     def __init__(self, _path, _fname):
-        BaseDataHelper.__init__(self, _path, _fname)
+        BaseDataHelper.__init__(self, path=_path, filename=_fname)
         self.p0 = 'p0'
         self.p0_perp = 'p0_perp'
         self.t0_re = 't0_re'
@@ -18,18 +18,18 @@ class TrajDataHelper(BaseDataHelper):
         self.usePoint = 'usePoint'
 
     def AssignColumnNames(self):
-        self.myDataFrame.columns = [self.p0, self.p0_perp, self.t0_re, self.t0_im,\
+        self.my_data_frame.columns = [self.p0, self.p0_perp, self.t0_re, self.t0_im,\
                                     self.z0, self.pf, self.pf_perp, self.orbit,\
                                     'rf', 'rf_perp', 'stability', 'guoy']
 
     def Truncate(self, size: int) -> void:
-        newArray = self.myArray[:size]
-        self.myArray = newArray
-        self.myDataFrame = DataFrame(self.myArray)
+        newArray = self.my_array[:size]
+        self.my_array = newArray
+        self.my_data_frame = DataFrame(self.my_array)
         self.AssignColumnNames()
 
     def GetAllColumns(self) -> list:
-        return self.GetDataFrame().columns
+        return self.get_data_frame().columns
 
     def GetColumnsToDrop(self) -> list:
         columnsToDrop = []
@@ -44,11 +44,11 @@ class TrajDataHelper(BaseDataHelper):
         return targetColumns
 
     def FilterByOrbit(self, orbit):
-        df = self.myDataFrame
-        self.myDataFrame = df.loc[df[self.orbit] == orbit]
+        df = self.my_data_frame
+        self.my_data_frame = df.loc[df[self.orbit] == orbit]
 
     def PrintAllOrbitsInfo(self):
-        df = self.myDataFrame
+        df = self.my_data_frame
         orbits = []
         orbits.append(df.loc[df[self.orbit] == 1])
         orbits.append(df.loc[df[self.orbit] == 2])
